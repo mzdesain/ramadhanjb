@@ -35,7 +35,7 @@ async function downloadTwibbon() {
 
         await document.fonts.ready;
 
-        ctx.fillStyle = "#000000";
+        ctx.fillStyle = "#ffffff";
         ctx.textAlign = "center";
 
         // **Gunakan ukuran font dari CSS dengan perbandingan 400px sebagai referensi**
