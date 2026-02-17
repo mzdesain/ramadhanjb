@@ -36,21 +36,41 @@ async function downloadTwibbon() {
         await document.fonts.ready;
 
         ctx.fillStyle = "#ffffff";
-        ctx.textAlign = "center";
 
-        // **Gunakan ukuran font dari CSS dengan perbandingan 400px sebagai referensi**
         const nameFontSize = (10 / 400) * CANVAS_HEIGHT;
         const positionFontSize = (8 / 400) * CANVAS_HEIGHT;
 
-        ctx.font = `bold ${nameFontSize}px 'Montserrat', sans-serif`;
+        // ======================
+        // NAMA (letter spacing -1px)
+        // ======================
 
-        // **Naikkan teks agar lebih dekat ke garis desain Twibbon**
+        ctx.font = `bold ${nameFontSize}px 'Montserrat', sans-serif`;
+        ctx.textAlign = "left"; // penting karena kita center manual
+
         const nameY = CANVAS_HEIGHT - (CANVAS_HEIGHT * 0.17);
-        ctx.fillText(inputName.value || "Nama", CANVAS_WIDTH / 2, nameY);
+
+        drawTextSpacing(
+            ctx,
+            inputName.value || "Nama",
+            CANVAS_WIDTH / 2,
+            nameY,
+            -6 // FIX: letter spacing -1px
+        );
+
+        // ======================
+        // POSITION (normal center)
+        // ======================
 
         ctx.font = `${positionFontSize}px 'Montserrat', sans-serif`;
+        ctx.textAlign = "center";
+
         const positionY = nameY + (1.1 * positionFontSize);
-        ctx.fillText(inputPosition.value || "Keterangan", CANVAS_WIDTH / 2, positionY);
+
+        ctx.fillText(
+            inputPosition.value || "Keterangan",
+            CANVAS_WIDTH / 2,
+            positionY
+        );
 
         let link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
@@ -58,8 +78,31 @@ async function downloadTwibbon() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
     } catch (error) {
         alert(error.message);
     }
 }
 
+
+// ======================
+// FUNGSI LETTER SPACING
+// ======================
+
+function drawTextSpacing(ctx, text, centerX, y, spacing) {
+
+    let totalWidth = 0;
+
+    for (let i = 0; i < text.length; i++) {
+        totalWidth += ctx.measureText(text[i]).width + spacing;
+    }
+
+    totalWidth -= spacing;
+
+    let startX = centerX - (totalWidth / 2);
+
+    for (let i = 0; i < text.length; i++) {
+        ctx.fillText(text[i], startX, y);
+        startX += ctx.measureText(text[i]).width + spacing;
+    }
+}
