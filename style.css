@@ -109,6 +109,47 @@ button:disabled {
     }
 }
 
+.download-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.download-popup.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #eee;
+    border-top: 3px solid #018297;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
 .footer {
     padding: 30px 20px;
     text-align: center;
