@@ -20,7 +20,11 @@ async function loadImage(url) {
 }
 
 async function downloadTwibbon() {
+
+     const popup = document.getElementById("downloadPopup");
     try {
+
+        popup.classList.add("active");
         let img = await loadImage(twibbonImg.src);
 
         let CANVAS_WIDTH = img.width;
@@ -78,6 +82,10 @@ async function downloadTwibbon() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+    setTimeout(() => {
+            popup.classList.remove("active");
+        }, 800);
 
     } catch (error) {
         alert(error.message);
